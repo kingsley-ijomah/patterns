@@ -1,1 +1,14 @@
-<p>Index file</p>
+<h3>List Products</h3>
+<% @product.all.each do |product| %>
+  <%= product.name %> -- 
+  <%= product.price %> ---
+  <%= product.quantity %> <br>
+<% end %>
+
+<h3>Product qty less than 50</h3>
+<% @product.quantity_less_than(50).each do |product| %>
+  <%= product.name %><br>
+<% end %>
+
+<h3>Product count</h3>
+<%= @product.total %>
