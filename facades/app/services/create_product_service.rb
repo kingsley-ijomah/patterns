@@ -12,7 +12,7 @@ class CreateProductService
     if success 
       object.save! 
     else
-      success
+      [success, object]
     end
   end
 

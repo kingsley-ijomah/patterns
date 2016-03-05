@@ -4,11 +4,12 @@ class ProductsController < ApplicationController
   end
 
   def new
-    @product = Product.new
+    @product = CreateProductForm.build
   end
 
   def create
-    if CreateProductService.build.call(product_params)  
+    success, @product = CreateProductService.build.call(product_params)  
+    if success
       redirect_to root_url  
     else
       render 'new'

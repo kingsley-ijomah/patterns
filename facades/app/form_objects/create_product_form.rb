@@ -1,6 +1,8 @@
 class CreateProductForm
   include ActiveModel::Model
 
+  validates :name, :price, :quantity, presence: true
+
   attr_accessor :name, :price, :quantity
 
   def self.build
@@ -9,19 +11,14 @@ class CreateProductForm
 
   def call(params)
     @params = params
-
-    if product.valid?
-      [true, product]
+    if valid?
+      [true, self]
     else
-      [false, product]
+      [false, self]
     end
   end
 
-  private
-
-  attr_reader :params
-
-  def product
-    @product ||= Product.new(params)
+  def self.model_name
+    ActiveModel::Name.new(self, nil, "Product")
   end
 end
