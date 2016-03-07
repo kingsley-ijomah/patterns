@@ -1,9 +1,9 @@
 class CreateProductForm
   include ActiveModel::Model
 
-  validates :name, :price, :quantity, presence: true
-
   attr_accessor :name, :price, :quantity
+
+  validates :name, :price, :quantity, presence: true
 
   def self.build
     new
@@ -11,8 +11,10 @@ class CreateProductForm
 
   def call(params)
     @params = params
+    mass_assign_attributes
+    
     if valid?
-      [true, self]
+      [true, product]
     else
       [false, self]
     end
@@ -21,4 +23,19 @@ class CreateProductForm
   def self.model_name
     ActiveModel::Name.new(self, nil, "Product")
   end
+
+  private
+
+  attr_reader :params
+
+  def mass_assign_attributes
+    params.each do |k,v|
+      self.send("#{k}=", "#{v}")
+    end
+  end
+
+  def product
+    Product.new(params)
+  end
+
 end

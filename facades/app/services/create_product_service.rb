@@ -9,6 +9,7 @@ class CreateProductService
 
   def call(params)
     success, object = create_form_service.call(params)
+
     if success 
       object.save! 
     else
